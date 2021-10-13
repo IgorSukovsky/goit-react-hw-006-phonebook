@@ -1,0 +1,17 @@
+.btn {
+  margin-left: 10px;
+  background-color: rgb(230, 136, 14);
+  border-radius: 50px;
+
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: rgb(133, 22, 22);
+}
+
+.textContent {
+  justify-content: space-between;
+  display: flex;
+  color: rgb(240, 255, 246);
+}
