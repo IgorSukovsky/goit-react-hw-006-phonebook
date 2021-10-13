@@ -6,6 +6,8 @@ const handleDelete = createAction("contact/Delete");
 
 const handleChange = createAction("contact/OnChange");
 
-const actions = { addContact, handleDelete, handleChange };
+const setContacts = createAction("contact/setContacts");
+
+const actions = { addContact, handleDelete, handleChange, setContacts };
 
 export default actions;

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styles from "./ContactListItem.module.css";
-const ContactsListItem = ({ item, handleDelete}) => {
+const ContactsListItem = ({ item, handleDelete }) => {
   const { name, number } = item;
 
   return (
@@ -9,7 +9,9 @@ const ContactsListItem = ({ item, handleDelete}) => {
         <span>
           {name}: {number}
         </span>
-        <button className={styles.btn} onClick={handleDelete}>X</button>
+        <button className={styles.btn} onClick={handleDelete}>
+          X
+        </button>
       </div>
     </li>
   );

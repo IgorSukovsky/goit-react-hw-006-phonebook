@@ -1,23 +1,36 @@
 // import { Component } from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import ContactForm from "./components/ContactForm//ContactForm";
 import Filter from "./components/Filter/Filter";
 import ContactsList from "./components/ContactList/ContactList";
+import { connect } from "react-redux";
+import actions from "./redux/phonebook/phonebookAction";
 
-const Contacts = () => {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState("");
+const Contacts = ({
+  filter,
+  handleChange,
+  handleDelete,
+  contacts,
+  addContact,
+  setContacts,
+}) => {
+  // const [contacts, setContacts] = useState([]);
+  // const [filter, setFilter] = useState("");
 
-  const handleDelete = (id) => {
-    setContacts((prevContacts) => {
-      return prevContacts.filter((contact) => contact.id !== id);
-    });
+  // const handleDelete = (id) => {
+  //   setContacts((prevContacts) => {
+  //     return prevContacts.filter((contact) => contact.id !== id);
+  //   });
+  // };
+
+  const onHandleDelete = (id) => {
+    handleDelete(id);
   };
 
   const handleFilter = (evt) => {
     const { value } = evt.target;
-    setFilter(value);
+    handleChange(value);
   };
 
   const handleSubmit = (term) => {
@@ -40,7 +53,8 @@ const Contacts = () => {
       number: term.number,
     };
 
-    setContacts((prevContacts) => [newTodo, ...prevContacts]);
+    // setContacts((prevContacts) => [newTodo, ...prevContacts]);
+    addContact(newTodo);
   };
 
   const formattedFilter = filter.toLowerCase().trim();
@@ -51,11 +65,10 @@ const Contacts = () => {
 
   useEffect(() => {
     const parsedContacts = JSON.parse(localStorage.getItem("contacts"));
-    console.log(parsedContacts);
     if (parsedContacts) {
       setContacts(parsedContacts);
     }
-  }, []);
+  }, [setContacts]);
 
   useEffect(() => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
@@ -68,10 +81,22 @@ const Contacts = () => {
       <h2>Contacts</h2>
       <div>
         <Filter filter={filter} handleFilter={handleFilter} />
-        <ContactsList items={filteredItems} handleDelete={handleDelete} />
+        <ContactsList items={filteredItems} handleDelete={onHandleDelete} />
       </div>
     </div>
   );
 };
 
-export default Contacts;
+const mapStateToProps = (state) => {
+  return {
+    filter: state.contacts.filter,
+    contacts: state.contacts.items,
+  };
+};
+
+export default connect(mapStateToProps, {
+  handleChange: actions.handleChange,
+  handleDelete: actions.handleDelete,
+  addContact: actions.addContact,
+  setContacts: actions.setContacts,
+})(Contacts);

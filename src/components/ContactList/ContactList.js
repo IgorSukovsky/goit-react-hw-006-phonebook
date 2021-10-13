@@ -1,14 +1,16 @@
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import actions from "../../redux/phonebook/phonebookAction";
+// import actions from "../../redux/phonebook/phonebookAction";
 import ContactsListItem from "../ContactListItem/ContactListItem";
 import styles from "./ContactList.module.css";
 
-const ContactsList = ({ contacts }) => {
-  console.log(contacts);
+const ContactsList = ({ handleDelete, items }) => {
+  console.log(items);
   return (
     <>
       <ul className={styles.ul}>
-        {contacts.contact.map((item) => (
+        {items.map((item) => (
           <ContactsListItem
             key={item.id}
             item={item}
@@ -28,8 +30,10 @@ ContactsList.propTypes = {
 };
 const mapStateToProps = (state) => {
   return {
-    contacts: state,
+    contacts: state.contact,
   };
 };
 
-export default connect(mapStateToProps)(ContactsList);
+export default connect(mapStateToProps, { handleDelete: actions.handleDelete })(
+  ContactsList
+);

@@ -2,17 +2,20 @@ import { combineReducers } from "redux";
 import { createReducer } from "@reduxjs/toolkit";
 import actions from "./phonebookAction";
 
-export const contactReducer = createReducer([], {
+export const contactItemsReducer = createReducer([], {
   [actions.addContact]: (state, { payload }) => [...state, payload],
+  [actions.setContacts]: (_, { payload }) => payload,
   [actions.handleDelete]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
 });
 
-export const inputValueReducer = createReducer("", {
+export const filterReducer = createReducer("", {
   [actions.handleChange]: (_, { payload }) => payload,
 });
 
-export default combineReducers({
-  contact: contactReducer,
-  inputValue: inputValueReducer,
+const phonesReducer = combineReducers({
+  items: contactItemsReducer,
+  filter: filterReducer,
 });
+
+export default phonesReducer;
