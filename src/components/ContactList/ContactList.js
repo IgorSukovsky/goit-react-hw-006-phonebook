@@ -25,7 +25,7 @@ const ContactsList = ({ handleDelete, items }) => {
 ContactsList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({ id: PropTypes.string.isRequired })
-  ).isRequired,
+  ),
   handleDelete: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => {
