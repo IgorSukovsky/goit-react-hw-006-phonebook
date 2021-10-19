@@ -1,39 +1,26 @@
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import actions from "../../redux/phonebook/phonebookAction";
-// import actions from "../../redux/phonebook/phonebookAction";
+import { useSelector } from "react-redux";
 import ContactsListItem from "../ContactListItem/ContactListItem";
 import styles from "./ContactList.module.css";
 
-const ContactsList = ({ handleDelete, items }) => {
-  console.log(items);
+const ContactsList = () => {
+  const contacts = useSelector((state) => state.contacts.items);
+  const filter = useSelector((state) => state.contacts.filter);
+
+  const formattedFilter = filter.toLowerCase().trim();
+
+  const filteredItems = contacts.filter((item) =>
+    item.name.toLowerCase().includes(formattedFilter)
+  );
+
   return (
     <>
       <ul className={styles.ul}>
-        {items.map((item) => (
-          <ContactsListItem
-            key={item.id}
-            item={item}
-            handleDelete={() => handleDelete(item.id)}
-          />
+        {filteredItems.map((item) => (
+          <ContactsListItem key={item.id} item={item} />
         ))}
       </ul>
     </>
   );
 };
 
-ContactsList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({ id: PropTypes.string.isRequired })
-  ),
-  handleDelete: PropTypes.func.isRequired,
-};
-const mapStateToProps = (state) => {
-  return {
-    contacts: state.contact,
-  };
-};
-
-export default connect(mapStateToProps, { handleDelete: actions.handleDelete })(
-  ContactsList
-);
+export default ContactsList;

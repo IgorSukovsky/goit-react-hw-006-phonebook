@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import actions from "../../redux/phonebook/phonebookAction";
 import styles from "./ContactListItem.module.css";
-const ContactsListItem = ({ item, handleDelete }) => {
-  const { name, number } = item;
+const ContactsListItem = ({ item }) => {
+  const { name, number, id } = item;
+  const dispatch = useDispatch();
+
+  const onHandleDelete = () => dispatch(actions.handleDelete(id));
 
   return (
     <li>
@@ -9,7 +14,7 @@ const ContactsListItem = ({ item, handleDelete }) => {
         <span>
           {name}: {number}
         </span>
-        <button className={styles.btn} onClick={handleDelete}>
+        <button className={styles.btn} onClick={onHandleDelete}>
           X
         </button>
       </div>
@@ -23,7 +28,6 @@ ContactsListItem.propTypes = {
     name: PropTypes.string.isRequired,
     number: PropTypes.string.isRequired,
   }).isRequired,
-  handleDelete: PropTypes.func.isRequired,
 };
 
 export default ContactsListItem;

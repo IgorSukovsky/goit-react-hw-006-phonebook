@@ -1,7 +1,12 @@
 import PropTypes from "prop-types";
 import styles from "./Filter.module.css";
 
-const Filter = ({ handleFilter, filter }) => {
+const Filter = ({ filter, handleChange }) => {
+  const handleFilter = (evt) => {
+    const { value } = evt.target;
+    handleChange(value);
+  };
+
   return (
     <div className={styles.block}>
       <label className={styles.title} htmlFor="filter">
@@ -20,7 +25,7 @@ const Filter = ({ handleFilter, filter }) => {
 };
 
 Filter.propTypes = {
-  handleFilter: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
 };
 
